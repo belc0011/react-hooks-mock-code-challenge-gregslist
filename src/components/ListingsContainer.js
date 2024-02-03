@@ -1,11 +1,23 @@
-import React from "react";
-// import ListingCard from "./ListingCard";
+import React, { useEffect, useState } from "react";
+import ListingCard from "./ListingCard";
 
-function ListingsContainer() {
+function ListingsContainer({listings, setListings}) {
+
+  useEffect(() => {
+    fetch(' http://localhost:6001/listings')
+    .then(res => res.json())
+    .then(data => setListings(data))
+    .catch(error => console.log("error", error))
+  }, [])
+  console.log(listings)
+  
   return (
     <main>
       <ul className="cards">
-        {/* use the ListingCard component to display listings */}
+        {listings.map((listing) => {
+          return <ListingCard key={listing.id} listing={listing} listings={listings} setListings={setListings}/>
+        })
+      }
       </ul>
     </main>
   );
